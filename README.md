@@ -250,3 +250,14 @@ venus/
 - C++17 compiler (tested with Apple Clang 17, should work with GCC 9+ and MSVC 19.14+)
 - `make` and `curl`
 - No global library installs, no package managers, no cmake
+
+---
+
+## Summary
+
+- Built a persistent key-value storage engine from scratch implementing the LSM-tree architecture used in LevelDB, RocksDB, and Cassandra
+- Designed custom on-disk SSTable format with prefix-compressed data blocks, binary-searchable index blocks, bloom filters (MurmurHash3, ~1% false positive rate), and CRC32C integrity checks on every block
+- Implemented a probabilistic skip list for the in-memory index, write-ahead logging with per-entry checksums for crash recovery, and leveled compaction with tombstone garbage collection
+- Achieved 147K writes/sec and 6.4M range-scan ops/sec on 100K-operation benchmarks
+- Exposed the engine via an interactive CLI and HTTP REST API; 64 unit/integration tests covering crash recovery, data corruption detection, and compaction correctness
+- Zero external storage dependencies — every component (skip list, WAL, block encoding, bloom filter, compaction) implemented from first principles in ~5,200 lines of C++
