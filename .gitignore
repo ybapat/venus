@@ -1,0 +1,6 @@
+build/
+third_party/
+venus_data/
+*.o
+*.d
+.DS_Store
